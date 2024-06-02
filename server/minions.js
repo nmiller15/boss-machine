@@ -9,7 +9,8 @@ const { createMeeting,
     deleteAllFromDatabase, } = require ('./db');
 
 minionsRouter.param('minionId', (req, res, next, minionId) => {
-    req.minionId = minionId;
+    const minion = getFromDatabaseById('minions', minionId);
+    req.minion = minion;
     next();
 })
 
@@ -37,14 +38,13 @@ minionsRouter.post('/', (req, res, next) => {
 })
 
 minionsRouter.get('/:minionId', (req, res, next) => {
-    const minion = getFromDatabaseById('minions', req.minionId);
     if (!minion) return res.status(404).send('There is no minion by that id.');
     res.status(200).send(minion);
 })
 
 minionsRouter.put('/:minionId', (req, res, next) => {
     const minionToUpdate = {
-        id: req.minionId,
+        id: req.minion.id,
         name: req.body.name,
         title: req.body.title,
         salary: req.body.salary,
@@ -52,6 +52,12 @@ minionsRouter.put('/:minionId', (req, res, next) => {
     }
     const updatedMinion = updateInstanceInDatabase('minions', minionToUpdate);
     res.status(201).send(updatedMinion);
+})
+
+minionsRouter.delete('/:minionId', (req, res, next) => {
+    const deleted = deleteFromDatabasebyId('minions', req.minion.id);
+    if (!deleted) return res.status(404).send('No minion with that Id located');
+    res.status(200).send(`Removed ${req.minion.name}`);
 })
 
 
