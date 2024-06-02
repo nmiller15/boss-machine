@@ -10,8 +10,12 @@ const { createMeeting,
 
 ideasRouter.param('ideaId', (req, res, next, id) => {
     const idea = getFromDatabaseById('ideas', id);
-    req.idea = idea;
-    next();
+    if (!idea) {
+        res.status(404).send('No idea with that id found.');
+    } else {
+        req.idea = idea;
+        next();
+    }
 })
 
 ideasRouter.get('/', (req, res, next) => {
