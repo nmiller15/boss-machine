@@ -51,7 +51,6 @@ minionsRouter.put('/:minionId', (req, res, next) => {
         weaknesses: req.body.weaknesses
     }
     const updatedMinion = updateInstanceInDatabase('minions', minionToUpdate);
-    console.log(updatedMinion)
     res.status(201).send(updatedMinion);
 })
 
