@@ -10,9 +10,12 @@ const { createMeeting,
 
 minionsRouter.param('minionId', (req, res, next, minionId) => {
     const minion = getFromDatabaseById('minions', minionId);
-    if (!minion) return res.status(404).send('No minion with that id.');
-    req.minion = minion;
-    next();
+    if (!minion) {
+        res.status(404).send('No minion with that id.');
+    } else {
+        req.minion = minion;
+        next();
+    }
 })
 
 minionsRouter.get('/', (req, res, next) => {
