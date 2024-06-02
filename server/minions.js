@@ -10,6 +10,7 @@ const { createMeeting,
 
 minionsRouter.param('minionId', (req, res, next, minionId) => {
     const minion = getFromDatabaseById('minions', minionId);
+    if (!minion) return res.status(404).send('No minion with that id.');
     req.minion = minion;
     next();
 })
@@ -38,7 +39,6 @@ minionsRouter.post('/', (req, res, next) => {
 })
 
 minionsRouter.get('/:minionId', (req, res, next) => {
-    if (!minion) return res.status(404).send('There is no minion by that id.');
     res.status(200).send(minion);
 })
 
@@ -56,7 +56,7 @@ minionsRouter.put('/:minionId', (req, res, next) => {
 
 minionsRouter.delete('/:minionId', (req, res, next) => {
     const deleted = deleteFromDatabasebyId('minions', req.minion.id);
-    if (!deleted) return res.status(404).send('No minion with that Id located');
+    if (!deleted) return res.status(500).send('Resource not deleted.');
     res.status(200).send(`Removed ${req.minion.name}`);
 })
 
