@@ -14,6 +14,7 @@ ideasRouter.param('ideaId', (req, res, next, id) => {
         res.status(404).send('No idea with that id found.');
     } else {
         req.idea = idea;
+        req.ideaId = idea.id;
         next();
     }
 })
@@ -38,6 +39,12 @@ ideasRouter.post('/', (req, res, next) => {
 
 ideasRouter.get('/:ideaId', (req, res, next) => {
     res.status(200).send(req.idea);
+})
+
+ideasRouter.put('/:ideaId', (req, res, next) => {
+    const updated = updateInstanceInDatabase('ideas', req.body);
+    if (!updated) return res.status(400).send('Not updated.');
+    res.status(200).send(`Successfully updated: ${updated.name}`);
 })
 
 module.exports = ideasRouter;
