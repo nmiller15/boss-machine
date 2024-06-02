@@ -33,14 +33,26 @@ minionsRouter.post('/', (req, res, next) => {
         weaknesses
     }
     const newMinion = addToDatabase('minions', instance);
-    res.status(201).send(`Successfully created new minion: ${newMinion.name}`);
+    res.status(201).send(newMinion);
 })
 
 minionsRouter.get('/:minionId', (req, res, next) => {
-    const id = req.minionId;
-    const minion = getFromDatabaseById('minions', id);
+    const minion = getFromDatabaseById('minions', req.minionId);
     if (!minion) return res.status(404).send('There is no minion by that id.');
     res.status(200).send(minion);
+})
+
+minionsRouter.put('/:minionId', (req, res, next) => {
+    const minionToUpdate = {
+        id: req.minionId,
+        name: req.body.name,
+        title: req.body.title,
+        salary: req.body.salary,
+        weaknesses: req.body.weaknesses
+    }
+    const updatedMinion = updateInstanceInDatabase('minions', minionToUpdate);
+    console.log(updatedMinion)
+    res.status(201).send(updatedMinion);
 })
 
 
