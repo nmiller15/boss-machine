@@ -42,7 +42,7 @@ minionsRouter.post('/', (req, res, next) => {
 })
 
 minionsRouter.get('/:minionId', (req, res, next) => {
-    res.status(200).send(minion);
+    res.status(200).send(req.minion);
 })
 
 minionsRouter.put('/:minionId', (req, res, next) => {
