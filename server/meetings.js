@@ -16,13 +16,14 @@ meetingsRouter.get('/', (req, res, next) => {
 meetingsRouter.post('/', (req, res, next) => {
     const meeting = createMeeting();
     if (!meeting) return res.status(400).send('Meeting failed to create.');
+    const meetings = addToDatabase('meetings', meeting);
     res.status(201).send(meeting);
 })
 
 meetingsRouter.delete('/', (req, res, next) => {
     const deleted = deleteAllFromDatabase('meetings');
     if (deleted === null) res.status(400).send(`Meeting removal unsuccessful.`);
-    res.status(200).send(deleted);
+    res.status(204).send(deleted);
 })
 
 module.exports = meetingsRouter;
