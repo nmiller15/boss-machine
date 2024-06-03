@@ -28,14 +28,14 @@ ideasRouter.get('/', (req, res, next) => {
 
 ideasRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
     const newIdea = {
-        description: req.body.description,
         name: req.body.name,
-        numWeeks: req.body.numWeeks,
-        weeklyRevenue: req.body.weeklyRevenue
+        description: req.body.description,
+        weeklyRevenue: req.body.weeklyRevenue,
+        numWeeks: req.body.numWeeks
     }
     const added = addToDatabase('ideas', newIdea);
     if (!added) return res.status(400).send('Not added.');
-    res.status(201).send(`Successfully added idea: ${added.name}`);
+    res.status(201).send(added);
 })
 
 ideasRouter.get('/:ideaId', (req, res, next) => {
@@ -51,7 +51,7 @@ ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res, next) => {
 ideasRouter.delete('/:ideaId', (req, res, next) => {
     const deleted = deleteFromDatabasebyId('ideas', req.ideaId);
     if (!deleted) return res.status(500).send('Resource not deleted.');
-    res.status(200).send(`Successfully deleted idea: ${req.idea.name}`);
+    res.status(204).send(`Successfully deleted idea: ${req.idea.name}`);
 })
 
 module.exports = ideasRouter;
