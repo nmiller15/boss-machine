@@ -1,9 +1,10 @@
 const checkMillionDollarIdea = (req, res, next) => {
-    const isMillionDollarIdea = req.numWeeks*req.weeklyRevenue >= 1000000;
+    const isMillionDollarIdea = req.body.numWeeks*req.body.weeklyRevenue >= 1000000;
     if (isMillionDollarIdea) {
+        console.log('This is a million dollar idea.');
         next();
     } else {
-        res.status(400).send('Not created, this is not a million dollar idea.');
+        res.status(400).send("This is not a million dollar idea");
     }
 };
 

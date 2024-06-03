@@ -45,7 +45,7 @@ ideasRouter.get('/:ideaId', (req, res, next) => {
 ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res, next) => {
     const updated = updateInstanceInDatabase('ideas', req.body);
     if (!updated) return res.status(400).send('Not updated.');
-    res.status(200).send(`Successfully updated: ${updated.name}`);
+    res.status(201).send(updated);
 })
 
 ideasRouter.delete('/:ideaId', (req, res, next) => {
