@@ -19,4 +19,10 @@ meetingsRouter.post('/', (req, res, next) => {
     res.status(201).send(`Successfully added meeting on ${added.day}`);
 })
 
+meetingsRouter.delete('/', (req, res, next) => {
+    const deleted = deleteAllFromDatabase('meetings');
+    if (deleted === null) res.status(400).send(`Meeting removal unsuccessful.`);
+    res.status(200).send('Meetings removed.');
+})
+
 module.exports = meetingsRouter;
