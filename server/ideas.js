@@ -7,6 +7,7 @@ const { createMeeting,
     updateInstanceInDatabase,
     deleteFromDatabasebyId,
     deleteAllFromDatabase, } = require ('./db');
+const checkMillionDollarIdea = require('./checkMillionDollarIdea');
 
 ideasRouter.param('ideaId', (req, res, next, id) => {
     const idea = getFromDatabaseById('ideas', id);
@@ -25,7 +26,7 @@ ideasRouter.get('/', (req, res, next) => {
     res.status(200).send(ideas);
 })
 
-ideasRouter.post('/', (req, res, next) => {
+ideasRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
     const newIdea = {
         description: req.body.description,
         name: req.body.name,
@@ -41,7 +42,7 @@ ideasRouter.get('/:ideaId', (req, res, next) => {
     res.status(200).send(req.idea);
 })
 
-ideasRouter.put('/:ideaId', (req, res, next) => {
+ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res, next) => {
     const updated = updateInstanceInDatabase('ideas', req.body);
     if (!updated) return res.status(400).send('Not updated.');
     res.status(200).send(`Successfully updated: ${updated.name}`);
