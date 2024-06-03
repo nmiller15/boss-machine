@@ -47,4 +47,10 @@ ideasRouter.put('/:ideaId', (req, res, next) => {
     res.status(200).send(`Successfully updated: ${updated.name}`);
 })
 
+ideasRouter.delete('/:ideaId', (req, res, next) => {
+    const deleted = deleteFromDatabasebyId('ideas', req.ideaId);
+    if (!deleted) return res.status(500).send('Resource not deleted.');
+    res.status(200).send(`Successfully deleted idea: ${req.idea.name}`);
+})
+
 module.exports = ideasRouter;
