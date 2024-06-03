@@ -14,15 +14,15 @@ meetingsRouter.get('/', (req, res, next) => {
 });
 
 meetingsRouter.post('/', (req, res, next) => {
-    const added = addToDatabase('meetings', req.body);
-    if (!added) return res.status(400).send('Instance is not valid.');
-    res.status(201).send(`Successfully added meeting on ${added.day}`);
+    const meeting = createMeeting();
+    if (!meeting) return res.status(400).send('Meeting failed to create.');
+    res.status(201).send(meeting);
 })
 
 meetingsRouter.delete('/', (req, res, next) => {
     const deleted = deleteAllFromDatabase('meetings');
     if (deleted === null) res.status(400).send(`Meeting removal unsuccessful.`);
-    res.status(200).send('Meetings removed.');
+    res.status(200).send(deleted);
 })
 
 module.exports = meetingsRouter;
